@@ -1,0 +1,100 @@
+= Java ADTs
+Matt Nicholls <transientvariable@gmail.com>
+:keywords: Java, Abstract Data Types, Data Structures
+:sectanchors: true
+:source-highlighter: prettify
+:icons: font
+
+Throughout the course of my personal and professional work over the years, I have accumulated a sizable library of code that has proven to be useful in several use cases. Chief of among this assortment are data structures that, for some reason or other, were/are not part of the standard library. Of course there are excellent alternatives like https://github.com/google/guava[Google's Guava], https://www.eclipse.org/collections/[Eclipse Collections], or http://commons.apache.org/proper/commons-collections/[Apache Commons Collections], but they tend to include the _kitchen sink_ when most of the time all that I needed was a fork and maybe a knife. As time allows, I will update my code and push it here.
+
+== Build from Source
+
+=== Prerequisites
+
+- The link:https://git-scm.com/[Git] version management tool
+- The link:https://jdk.java.net/14/[Java Development Kit (JDK)], version 14 or later
+- The link:https://gradle.org/releases/[Gradle build automation tool], version 6.3 or later
+
+=== Assemble JAR File
+
+Fetch the source:
+....
+$ git clone https://github.com/2speed/jadt.git
+....
+
+Use the Gradle `build` task to assemble the JAR file:
+....
+$ ./gradlew build
+....
+
+After the build completed, the final build artifact will be located in the `jadt/build/libs` directory.
+
+== Usage
+
+=== Add `classpath` Dependency
+
+Add the `jadt-<version>.jar` file as a classpath dependency to your favorite JVM project. For example, if using Gradle, the following could be added to the Gradle build file to use `jadt-<version>.jar` file as a local dependency:
+
+.build.gradle.kts
+[source,kotlin]
+----
+...
+repositories {
+    flatDir {
+        dirs("path/to/jadt/build/libs")
+    }
+}
+
+dependencies {
+    implementation(":jadt-<version>")
+}
+...
+----
+
+=== Graph
+
+Simple example using a `DirectedGraph` with `char` vertices.
+
+[source,java]
+----
+
+import static java.lang.System.out;
+
+import griz.jadt.graph.DirectedGraph;
+import griz.jadt.graph.Edge;
+import griz.jadt.graph.SimpleEdge;
+
+public class DiGraphExample {
+
+    public static void main(String... args) {
+        // Declare a directed graph instance for character vertices
+        final var diGraph = new DirectedGraph<Character, Edge<Character>>();
+
+        // Add character vertices
+        diGraph.addEdge(new SimpleEdge<>('a', 'b'));
+        diGraph.addEdge(new SimpleEdge<>('b', 'd'));
+        diGraph.addEdge(new SimpleEdge<>('d', 'c'));
+
+        // Print the state of the directed graph
+        out.println(diGraph);
+
+        /*
+          Output:
+
+            a, outgoing edges: SimpleEdge { a -> b }
+            b, outgoing edges: SimpleEdge { b -> d }
+            c, outgoing edges: none
+            d, outgoing edges: SimpleEdge { d -> c }
+        */
+
+        // Print the topological order
+        out.println(diGraph.topologicalOrder());
+
+        /*
+          Output:
+
+            [a, b, d, c]
+        */
+    }
+}
+----
