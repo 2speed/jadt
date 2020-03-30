@@ -5,6 +5,12 @@ Matt Nicholls <transientvariable@gmail.com>
 :source-highlighter: prettify
 :icons: font
 
+ifdef::env-github[]
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 Throughout the course of my personal and professional work over the years, I have accumulated a sizable library of code that has proven to be useful in several use cases. Chief of among this assortment are data structures that, for some reason or other, were/are not part of the standard library. Of course there are excellent alternatives like https://github.com/google/guava[Google's Guava], https://www.eclipse.org/collections/[Eclipse Collections], or http://commons.apache.org/proper/commons-collections/[Apache Commons Collections], but they tend to include the _kitchen sink_ when most of the time all that I needed was a fork and maybe a knife. As time allows, I will update my code and push it here.
 
 == Build from Source
